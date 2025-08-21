@@ -73,12 +73,12 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    amp: '1'
+    amp: '2'
     comment: ''
-    freq: '20000'
+    freq: '2000'
     maxoutbuf: '0'
     minoutbuf: '0'
-    offset: '-0.5'
+    offset: '-1'
     phase: '0'
     samp_rate: samp_rate
     showports: 'False'
@@ -140,31 +140,29 @@ blocks:
       \ of your block. The arguments to __init__  will\nbe the parameters. All of\
       \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
       from gnuradio import gr\n\nclass blk(gr.sync_block):\n    \"\"\"Embedded Python\
-      \ Block - Diferenciador acumulativo\"\"\"\n\n    def __init__(self, example_param=1.0):\n\
-      \        gr.sync_block.__init__(\n            self,\n            name='e_Diff',\n\
-      \            in_sig=[np.complex64],\n            out_sig=[np.complex64]\n  \
-      \      )\n        self.example_param = example_param\n        self.acum_anterior\
-      \ = 0.0  # Inicializa el acumulador\n\n    def work(self, input_items, output_items):\n\
-      \        x = input_items[0]        # Se\xF1al de entrada\n        y0 = output_items[0]\
-      \      # Se\xF1al de salida\n\n        diff = np.cumsum(x) + self.acum_anterior\n\
-      \        self.acum_anterior = diff[-1]  # Guarda el \xFAltimo acumulado\n\n\
-      \        y0[:] = diff\n        return len(y0)\n"
+      \ Block - Diferenciador acumulativo\"\"\"\n\n    def __init__(self):\n     \
+      \   gr.sync_block.__init__(\n            self,\n            name='e_Diff',\n\
+      \            in_sig=[np.float32],\n            out_sig=[np.float32]\n      \
+      \  )\n        self.acum_anterior = 0.0  # Inicializa el acumulador\n\n    def\
+      \ work(self, input_items, output_items):\n        x = input_items[0]       \
+      \ # Se\xF1al de entrada\n        y0 = output_items[0]      # Se\xF1al de salida\n\
+      \        N = len(x)\n        diff = np.cumsum(x) + self.acum_anterior\n    \
+      \    self.acum_anterior = diff[-1]  # Guarda el \xFAltimo acumulado\n\n    \
+      \    y0[:] = diff\n        return len(y0)\n"
     affinity: ''
     alias: ''
     comment: ''
-    example_param: '1.0'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('e_Diff', 'blk', [('example_param', '1.0')], [('0', 'complex', 1)],
-      [('0', 'complex', 1)], 'Embedded Python Block - Diferenciador acumulativo',
-      ['example_param'])
+    _io_cache: ('e_Diff', 'blk', [], [('0', 'float', 1)], [('0', 'float', 1)], 'Embedded
+      Python Block - Diferenciador acumulativo', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 32.0]
+    coordinate: [408, 304.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: epy_block_1
   id: epy_block
   parameters:
@@ -194,7 +192,7 @@ blocks:
     bus_structure: null
     coordinate: [368, 232.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -391,11 +389,14 @@ blocks:
     state: enabled
 
 connections:
+- [analog_sig_source_x_1, '0', epy_block_0, '0']
 - [analog_sig_source_x_1, '0', epy_block_1, '0']
 - [analog_sig_source_x_1, '0', qtgui_time_sink_x_0_0, '0']
 - [blocks_throttle2_0, '0', qtgui_time_sink_x_0, '0']
+- [blocks_vector_source_x_0, '0', epy_block_0, '0']
 - [blocks_vector_source_x_0, '0', epy_block_1, '0']
 - [blocks_vector_source_x_0, '0', qtgui_time_sink_x_0_0, '0']
+- [epy_block_0, '0', blocks_throttle2_0, '0']
 - [epy_block_1, '0', blocks_throttle2_0, '0']
 
 metadata:
