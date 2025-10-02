@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: ook
+# Title: bpsk
 # Author: radiogis_director
 # GNU Radio version: v3.10.11.0-89-ga17f69e7
 
@@ -37,9 +37,9 @@ import threading
 class ook(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "ook", catch_exceptions=True)
+        gr.top_block.__init__(self, "bpsk", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("ook")
+        self.setWindowTitle("bpsk")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -474,30 +474,32 @@ class ook(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.epy_block_0_0 = epy_block_0_0.blk()
         self.epy_block_0 = epy_block_0.blk(fc=fc, samp_rate=samp_rate)
-        self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_ff(2)
+        self.blocks_multiply_const_vxx_0_1 = blocks.multiply_const_ff(1)
+        self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_ff(1)
         self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
-        self.blocks_add_const_vxx_0 = blocks.add_const_ff((-0.5))
+        self.blocks_add_const_vxx_0 = blocks.add_const_ff(0)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 2, 1000000))), True)
-        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 2)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_const_source_x_0, 0), (self.epy_block_0, 1))
-        self.connect((self.analog_const_source_x_0, 0), (self.epy_block_0_0, 1))
+        self.connect((self.analog_const_source_x_0, 0), (self.epy_block_0, 0))
+        self.connect((self.analog_const_source_x_0, 0), (self.epy_block_0_0, 0))
         self.connect((self.analog_random_source_x_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_add_const_vxx_0, 0), (self.blocks_multiply_const_vxx_0_0, 0))
         self.connect((self.blocks_char_to_float_0, 0), (self.blocks_add_const_vxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.interp_fir_filter_xxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0_1, 0), (self.epy_block_0, 1))
+        self.connect((self.blocks_multiply_const_vxx_0_1, 0), (self.epy_block_0_0, 1))
         self.connect((self.epy_block_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.epy_block_0, 0), (self.qtgui_time_sink_x_0_1_0, 1))
         self.connect((self.epy_block_0_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.epy_block_0_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
         self.connect((self.epy_block_0_0, 0), (self.qtgui_time_sink_x_0_1_0_0, 0))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.epy_block_0, 0))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.epy_block_0_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_multiply_const_vxx_0_1, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0_1, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0_1_0, 0))
 

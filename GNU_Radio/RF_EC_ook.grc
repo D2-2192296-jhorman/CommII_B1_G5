@@ -244,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [852, 125]
+    coordinate: [912, 120.0]
     rotation: 0
     state: disabled
 - name: blocks_multiply_const_vxx_0_0
@@ -280,7 +280,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [798, 174]
+    coordinate: [808, 176.0]
     rotation: 0
     state: disabled
 - name: epy_block_0
